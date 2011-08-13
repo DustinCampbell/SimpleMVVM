@@ -93,7 +93,7 @@ namespace SimpleMVVM
                 {
                     length = Marshal.SizeOf(typeof(Win32.WindowPlacement)),
                     flags = 0,
-                    showCmd = (int)showCmdElement == Win32.ShowMinimized ? Win32.ShowNormal : Win32.ShowMinimized,
+                    showCmd = (int)showCmdElement == Win32.ShowMinimized ? Win32.ShowNormal : (int)showCmdElement,
                     minPosition =
                         {
                             X = (int)minPositionElement.Attribute("X"),
