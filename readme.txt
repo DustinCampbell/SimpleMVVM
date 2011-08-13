@@ -1,1 +1,1 @@
-Simple Model-View-ViewModel framework for building WPF applications.
+A simple Model-View-ViewModel framework for building WPF applications.
