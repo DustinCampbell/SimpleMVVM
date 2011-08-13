@@ -1,0 +1,18 @@
+# Ignore binary folders
+Binaries/
+obj
+bin
+
+# Ignore NUnit test results
+*.VisualState.xml
+TestResult*.xml
+
+# Ignore project and solution user settings
+*.csproj.user
+*.fsproj.user
+*.vbproj.user
+*.suo
+
+# Ignore ReSharper folders and files
+_ReSharper*
+*.ReSharper.user
