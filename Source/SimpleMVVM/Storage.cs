@@ -25,6 +25,12 @@ namespace SimpleMVVM
             return IsolatedStorageFile.GetUserStoreForDomain();
         }
 
+        public static bool FileExists(string fileName)
+        {
+            var storage = GetStorageFile();
+            return storage.FileExists(fileName);
+        }
+
         public static XmlReader OpenXmlFile(string fileName)
         {
             var storage = GetStorageFile();
