@@ -45,9 +45,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Storage.cs" />
     <Compile Include="ViewModelBase.CommandBinding.cs" />
     <Compile Include="ViewModelBase.PropertyChanged.cs" />
     <Compile Include="ViewModelBase`1.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Storage.Win32.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
