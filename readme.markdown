@@ -7,4 +7,5 @@
 <li>ICommand registration support using delegates.</li>
 <li>Attached behavior for registering CommandBindings with view.</li>
 <li>Support for saving/restoring window placement to isolated storage.</li>
+<li>Extension methods for common WPF operations</li>
 </ul>
