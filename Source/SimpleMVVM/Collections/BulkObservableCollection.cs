@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace SimpleMVVM.Collections
 {
-    public class BulkObservableCollection<T> : Collection<T>, INotifyCollectionChanged, INotifyPropertyChanged
+    public partial class BulkObservableCollection<T> : Collection<T>, INotifyCollectionChanged, INotifyPropertyChanged
     {
         private int bulkOperationCount;
         private bool collectionChangedDuringBulkOperation;
@@ -145,6 +145,11 @@ namespace SimpleMVVM.Collections
 
         public T Find(Func<T, bool> predicate)
         {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException("predicate");
+            }
+
             foreach (var item in this)
             {
                 if (predicate(item))
@@ -154,6 +159,63 @@ namespace SimpleMVVM.Collections
             }
 
             throw new InvalidOperationException("No item found.");
+        }
+
+        public int BinarySearch(int index, int length, T value, IComparer<T> comparer)
+        {
+            if (comparer == null)
+            {
+                comparer = Comparer<T>.Default;
+            }
+
+            var low = index;
+            var high = (index + length) - 1;
+
+            while (low <= high)
+            {
+                var mid = low + ((high - low) / 2);
+                var comp = comparer.Compare(this[mid], value);
+
+                if (comp == 0)
+                {
+                    return mid;
+                }
+
+                if (comp < 0)
+                {
+                    low = mid + 1;
+                }
+                else
+                {
+                    high = mid - 1;
+                }
+            }
+
+            return ~low;
+        }
+
+        public int BinarySearch(int index, int length, T value, Comparison<T> comparison)
+        {
+            return comparison == null
+                ? BinarySearch(index, length, value, Comparer<T>.Default)
+                : BinarySearch(index, length, value, new ComparisonComparer(comparison));
+        }
+
+        public int BinarySearch(T value, IComparer<T> comparer)
+        {
+            return BinarySearch(0, Count, value, comparer);
+        }
+
+        public int BinarySearch(T value, Comparison<T> comparison)
+        {
+            return comparison == null
+                ? BinarySearch(0, Count, value, Comparer<T>.Default)
+                : BinarySearch(0, Count, value, new ComparisonComparer(comparison));
+        }
+
+        public int BinarySearch(T value)
+        {
+            return BinarySearch(0, Count, value, Comparer<T>.Default);
         }
 
         public void AddRange(IEnumerable<T> items)
