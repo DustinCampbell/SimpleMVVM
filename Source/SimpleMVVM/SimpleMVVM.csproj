@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\BulkObservableCollection.cs" />
+    <Compile Include="Collections\BulkObservableCollection.FuncComparer.cs" />
     <Compile Include="Collections\ReadOnlyBulkObservableCollection.cs" />
     <Compile Include="FrameworkElementExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

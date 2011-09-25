@@ -201,6 +201,46 @@ namespace SimpleMVVM.Collections
                 : BinarySearch(index, length, value, new ComparisonComparer(comparison));
         }
 
+        public int BinarySearch(int index, int length, T value, Func<T, T, int> comparison)
+        {
+            return comparison == null
+                ? BinarySearch(index, length, value, Comparer<T>.Default)
+                : BinarySearch(index, length, value, new FuncComparer(comparison));
+        }
+
+        public int BinarySearch(int index, int length, Func<T, int> comparison)
+        {
+            if (comparison == null)
+            {
+                throw new ArgumentNullException("comparison");
+            }
+
+            var low = index;
+            var high = (index + length) - 1;
+
+            while (low <= high)
+            {
+                var mid = low + ((high - low) / 2);
+                var comp = comparison(this[mid]);
+
+                if (comp == 0)
+                {
+                    return mid;
+                }
+
+                if (comp < 0)
+                {
+                    low = mid + 1;
+                }
+                else
+                {
+                    high = mid - 1;
+                }
+            }
+
+            return ~low;
+        }
+
         public int BinarySearch(T value, IComparer<T> comparer)
         {
             return BinarySearch(0, Count, value, comparer);
@@ -211,6 +251,18 @@ namespace SimpleMVVM.Collections
             return comparison == null
                 ? BinarySearch(0, Count, value, Comparer<T>.Default)
                 : BinarySearch(0, Count, value, new ComparisonComparer(comparison));
+        }
+
+        public int BinarySearch(T value, Func<T, T, int> comparison)
+        {
+            return comparison == null
+                ? BinarySearch(0, Count, value, Comparer<T>.Default)
+                : BinarySearch(0, Count, value, new FuncComparer(comparison));
+        }
+
+        public int BinarySearch(Func<T, int> comparison)
+        {
+            return BinarySearch(0, Count, comparison);
         }
 
         public int BinarySearch(T value)
