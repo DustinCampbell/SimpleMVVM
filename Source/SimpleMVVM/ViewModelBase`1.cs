@@ -41,6 +41,8 @@ namespace SimpleMVVM
 
             OnViewCreated(View);
 
+            SetRegisterCommands(View, this);
+
             return View;
         }
     }
