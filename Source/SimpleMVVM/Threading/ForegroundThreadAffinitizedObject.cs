@@ -8,7 +8,6 @@ namespace SimpleMVVM.Threading
 {
     public class ForegroundThreadAffinitizedObject
     {
-        private static readonly Task emptyTask = Task.FromResult<object>(null);
         private static readonly Thread foregroundThread;
         protected static readonly TaskScheduler ForegroundTaskScheduler;
 
@@ -73,7 +72,9 @@ namespace SimpleMVVM.Threading
             return (result & InputMask) != 0;
         }
 
-        public Task InvokeBelowInputPriority(Action action, CancellationToken cancellationToken = default(CancellationToken))
+        public Task InvokeBelowInputPriority(
+            Action action,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             if (IsForeground() && !IsInputPending())
             {
@@ -81,10 +82,26 @@ namespace SimpleMVVM.Threading
                 // and there's no pending user input.
                 action();
 
-                return emptyTask;
+                return SpecializedTasks.EmptyTask;
             }
 
             return Task.Factory.StartNew(action, cancellationToken, TaskCreationOptions.None, ForegroundTaskScheduler);
+        }
+
+        public Task<T> InvokeBelowInputPriority<T>(
+            Func<T> function,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (IsForeground() && !IsInputPending())
+            {
+                // Optimize to inline the function if we're already on the foreground thread
+                // and there's no pending user input.
+                var result = function();
+
+                return Task.FromResult(result);
+            }
+
+            return Task.Factory.StartNew(function, cancellationToken, TaskCreationOptions.None, ForegroundTaskScheduler);
         }
     }
 }

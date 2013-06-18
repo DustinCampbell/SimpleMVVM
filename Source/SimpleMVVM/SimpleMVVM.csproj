@@ -56,7 +56,7 @@
     <Compile Include="Storage.cs" />
     <Compile Include="Threading\ForegroundThreadAffinitizedObject.cs" />
     <Compile Include="Threading\NativeMethods.cs" />
-    <Compile Include="ViewModelBase.cs" />
+    <Compile Include="Threading\SpecializedTasks.cs" />
     <Compile Include="ViewModelBase_CommandBinding.cs" />
     <Compile Include="ViewModelBase_PropertyChanged.cs" />
     <Compile Include="ViewModelBase`1.cs" />
